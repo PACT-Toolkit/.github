@@ -8,10 +8,6 @@ PACT sits between your application and its LLM. When a request comes in, it runs
 - **PII leaks** — sensitive data appearing in LLM responses
 - **Unauthorized tool calls** — the LLM being manipulated into taking actions it should not
 
-## Bachelor project
-
-Built as a 3-month bachelor project at Aarhus University by two software engineering students. The project explores layered LLM defense in the context of EU AI Act compliance for fintech applications.
-
 ## Getting started
 
 Contact the maintainers for access to the service repositories.

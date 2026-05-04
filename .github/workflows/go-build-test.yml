@@ -17,10 +17,19 @@ jobs:
       - name: Build
         run: go build ./...
 
+      - name: Vet
+        run: go vet ./...
+
       - name: Test
-        run: go test ./...
+        run: go test -race ./...
 
       - name: Lint
         uses: golangci/golangci-lint-action@v6
         with:
           version: latest
+
+      - name: Wire (check generated files are up to date)
+        run: |
+          go install github.com/google/wire/cmd/wire@latest
+          wire ./... 2>/dev/null || true
+          git diff --exit-code -- '**/wire_gen.go' || (echo "wire_gen.go is out of date — run wire ./..." && exit 1)

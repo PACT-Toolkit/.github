@@ -1,6 +1,7 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:recommended"],
+  "dryRun": null,
   "schedule": ["before 9am on Monday"],
   "labels": ["dependencies"],
   "automerge": false,

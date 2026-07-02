@@ -4,6 +4,7 @@
   "schedule": ["before 9am on Monday"],
   "labels": ["dependencies"],
   "automerge": false,
+  "postUpdateOptions": ["gomodTidy"],
   "packageRules": [
     {
       "description": "Group all Go dependencies into one PR",

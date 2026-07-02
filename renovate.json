@@ -35,13 +35,17 @@
     },
     {
       "description": "Group TypeScript type definitions",
-      "matchPackagePatterns": ["^@types/"],
-      "groupName": "TypeScript type definitions"
+      "groupName": "TypeScript type definitions",
+      "matchPackageNames": ["/^@types//"]
     },
     {
       "description": "Group linting tools",
-      "matchPackageNames": ["eslint", "prettier"],
-      "matchPackagePrefixes": ["@typescript-eslint/", "@eslint/"],
+      "matchPackageNames": [
+        "eslint",
+        "prettier",
+        "@typescript-eslint/{/,}**",
+        "@eslint/{/,}**"
+      ],
       "groupName": "Linting tools"
     }
   ]

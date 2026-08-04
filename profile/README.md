@@ -1,6 +1,6 @@
 # PACT — Prompt-Attack Countermeasure Toolkit
 
-PACT sits between your application and its LLM. When a request comes in, it runs through a chain of defenses: a regex pre-filter, a secrets scanner, a vector similarity check, a DistilBERT classifier, and a multi-model consensus vote. Each layer is faster and cheaper than the next, so most attacks are blocked early. Responses are scanned for PII before they reach the user, and any tool calls the LLM wants to make are gated by capability tokens.
+PACT sits between your application and its LLM. When a request comes in, it runs through a chain of defenses: a regex pre-filter, a secrets scanner, a vector similarity check, a DeBERTa-v3 classifier, and a multi-model consensus vote. Each layer is faster and cheaper than the next, so most attacks are blocked early. Responses are scanned for PII before they reach the user, and any tool calls the LLM wants to make are gated by capability tokens.
 
 ## What it protects against
 

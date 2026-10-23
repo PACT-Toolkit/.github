@@ -5,6 +5,16 @@
   "labels": ["dependencies"],
   "automerge": false,
   "postUpdateOptions": ["gomodTidy"],
+  "customManagers": [
+    {
+      "description": "Tool pins in a Makefile: a '# renovate:' annotation directly above 'NAME ?= vX.Y.Z'. Only the '?=' form, so repos that declare their own ':=' manager do not get a second PR.",
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Makefile$/"],
+      "matchStrings": [
+        "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>\\S+)\\n[A-Z_]+\\s+\\?=\\s+(?<currentValue>v\\S+)"
+      ]
+    }
+  ],
   "packageRules": [
     {
       "description": "Group all Go dependencies into one PR",

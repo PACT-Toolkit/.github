@@ -22,6 +22,12 @@
       "groupName": "Go dependencies"
     },
     {
+      "description": "Group Go toolchain bumps",
+      "matchManagers": ["gomod"],
+      "matchDepTypes": ["toolchain", "golang"],
+      "groupName": "Go toolchain"
+    },
+    {
       "description": "Group all Python dependencies into one PR",
       "matchManagers": ["pip_requirements", "pipenv", "poetry"],
       "groupName": "Python dependencies"

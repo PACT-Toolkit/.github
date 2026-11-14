@@ -13,6 +13,40 @@
       "matchStrings": [
         "# renovate: datasource=(?<datasource>[a-z-]+) depName=(?<depName>\\S+)\\n[A-Z_]+\\s+\\?=\\s+(?<currentValue>v\\S+)"
       ]
+    },
+    {
+      "description": "Go toolchain pin in a Makefile: 'GO_TOOLCHAIN := go1.X.Y' (':=', '?=' or '='). It pins the exact toolchain a target runs under, so it is versioned like the go.mod toolchain directive.",
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)Makefile$/"],
+      "matchStrings": [
+        "(?:^|\\n)GO_TOOLCHAIN\\s*[:?]?=\\s*go(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*(?:\\n|$)"
+      ],
+      "depNameTemplate": "go",
+      "datasourceTemplate": "golang-version",
+      "depTypeTemplate": "toolchain"
+    },
+    {
+      "description": "toolchain directive in go.work. The gomod manager only reads go.mod, so a go.work toolchain line would otherwise fall behind the modules it lists.",
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)go\\.work$/"],
+      "matchStrings": [
+        "(?:^|\\n)toolchain\\s+go(?<currentValue>\\d+\\.\\d+\\.\\d+)\\s*(?:\\n|$)"
+      ],
+      "depNameTemplate": "go",
+      "datasourceTemplate": "golang-version",
+      "depTypeTemplate": "toolchain"
+    },
+    {
+      "description": "go directive in go.work, versioned like the go directive the gomod manager reads from go.mod: a floor that Renovate leaves alone unless a repo overrides the versioning (pact-contracts does).",
+      "customType": "regex",
+      "managerFilePatterns": ["/(^|/)go\\.work$/"],
+      "matchStrings": [
+        "(?:^|\\n)go\\s+(?<currentValue>\\d+\\.\\d+(?:\\.\\d+)?)\\s*(?:\\n|$)"
+      ],
+      "depNameTemplate": "go",
+      "datasourceTemplate": "golang-version",
+      "depTypeTemplate": "golang",
+      "versioningTemplate": "go-mod-directive"
     }
   ],
   "packageRules": [
@@ -22,9 +56,9 @@
       "groupName": "Go dependencies"
     },
     {
-      "description": "Group Go toolchain bumps",
-      "matchManagers": ["gomod"],
-      "matchDepTypes": ["toolchain", "golang"],
+      "description": "Group every Go toolchain pin (go.mod and go.work directives, Makefile GO_TOOLCHAIN) so one Go release is one PR per repo with all pins moved in lockstep",
+      "matchDatasources": ["golang-version"],
+      "matchDepNames": ["go"],
       "groupName": "Go toolchain"
     },
     {
@@ -40,6 +74,13 @@
     {
       "description": "Automerge patch-level Go updates",
       "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge patch-level Go toolchain updates, including the custom-manager pins, so a group that mixes gomod and custom pins still automerges as a whole",
+      "matchDatasources": ["golang-version"],
+      "matchDepNames": ["go"],
       "matchUpdateTypes": ["patch"],
       "automerge": true
     },
